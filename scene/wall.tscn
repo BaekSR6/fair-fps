@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://nnj1r5btyiog"]
+
+[ext_resource type="Texture2D" uid="uid://brm1kon70gvtp" path="res://assets/kenney_top-down-shooter/PNG/Tiles/tile_445.png" id="1_80ewm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3h2xa"]
+size = Vector2(20, 64)
+
+[node name="Wall" type="StaticBody2D" unique_id=1897503628]
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2015970869]
+texture = ExtResource("1_80ewm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1421397312]
+shape = SubResource("RectangleShape2D_3h2xa")

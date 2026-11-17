@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: ${FAIRFPS_MODE:secure}
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/fairfps}
+    username: ${DB_USER:fairfps}
+    password: ${DB_PASSWORD:fairfps-local}
+  sql:
+    init:
+      mode: always
+fairfps:
+  admin-key: ${FAIRFPS_ADMIN_KEY}
+

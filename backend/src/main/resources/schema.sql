@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS security_events (
+  id BIGSERIAL PRIMARY KEY,
+  occurred_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  mode VARCHAR(16) NOT NULL,
+  player_id VARCHAR(64),
+  event_type VARCHAR(64) NOT NULL,
+  detail VARCHAR(512) NOT NULL
+);
