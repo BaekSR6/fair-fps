@@ -3,13 +3,15 @@
 [ext_resource type="Texture2D" uid="uid://q7ycmq5xa178" path="res://assets/kenney_top-down-shooter/PNG/Tiles/tile_508.png" id="1_70vgq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fane6"]
-size = Vector2(62, 38)
+size = Vector2(64, 40)
 
 [node name="GuSeokWall" type="StaticBody2D" unique_id=1321994644]
 collision_layer = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=588854666]
+[node name="Tile508" type="Sprite2D" parent="." unique_id=976323918]
+position = Vector2(0, 1)
 texture = ExtResource("1_70vgq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2134028042]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_fane6")
