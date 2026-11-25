@@ -1,4 +1,28 @@
-# Godot 4+ specific ignores
+# Godot
 .godot/
-/android/
-/backend/target/
+.import/
+export_credentials.cfg
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# Java
+*.class
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+
+# Security
+.env
+.env.*
+!.env.example
+
+# Windows
+Thumbs.db
+Desktop.ini
