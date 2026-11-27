@@ -1,6 +1,8 @@
 extends Node
 
 @export var coin_scene: PackedScene
+@export var result_label: Label
+@export var score_label: Label
 
 const HOST := "127.0.0.1"
 const PORT := 7777
@@ -195,7 +197,7 @@ func handle_message(message: Dictionary) -> void:
 				
 		"match_end":
 			match_ended = true
-			game_over_screen.show()
+			show_match_result(message)
 			print("경기 종료!")
 			
 			var hud = get_tree().current_scene.get_node_or_null(
@@ -356,4 +358,41 @@ func export_spawn_config() -> void:
 			"user://spawn_points.json"
 		)
 	)
+	
+func show_match_result(message: Dictionary) -> void:
+	var winner := int(message.get("winner", 0))
+
+	var p1_diamond := int(message.get("p1_diamond", 0))
+	var p1_silver := int(message.get("p1_silver", 0))
+
+	var p2_diamond := int(message.get("p2_diamond", 0))
+	var p2_silver := int(message.get("p2_silver", 0))
+
+	if winner == 0:
+		result_label.text = "DRAW!"
+		result_label.modulate = Color.YELLOW
+
+	elif winner == my_id:
+		result_label.text = "VICTORY!"
+		result_label.modulate = Color.LIME_GREEN
+
+	else:
+		result_label.text = "DEFEAT!"
+		result_label.modulate = Color.TOMATO
+
+	score_label.text = (
+        "PLAYER 1\n"
+		+ "Diamond: %d | Silver: %d\n\n"
+		+ "PLAYER 2\n"
+		+ "Diamond: %d | Silver: %d"
+	) % [
+		p1_diamond,
+		p1_silver,
+		p2_diamond,
+		p2_silver
+	]
+
+	game_over_screen.show()
+
+	print("[MATCH END] Winner: ", winner)
 	

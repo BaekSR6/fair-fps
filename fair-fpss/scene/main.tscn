@@ -604,6 +604,24 @@ scale = Vector2(1, 1.775)
 
 [node name="HUD" parent="CanvasLayer" unique_id=1722907877 instance=ExtResource("6_4j5ol")]
 
-[node name="NetworkManager" type="Node" parent="." unique_id=804285105]
+[node name="ResultLabel" parent="CanvasLayer/HUD/GameOver" parent_id_path=PackedInt32Array(1722907877, 1805169400) index="2" unique_id=637744764]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 500.0
+offset_right = 212.0
+offset_bottom = 567.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="NetworkManager" type="Node" parent="." unique_id=804285105 node_paths=PackedStringArray("result_label", "score_label")]
 script = ExtResource("7_p1hux")
 coin_scene = ExtResource("8_of57s")
+result_label = NodePath("../CanvasLayer/HUD/GameOver/ResultLabel")
+score_label = NodePath("../CanvasLayer/HUD/GameOver/ScoreLabel")
+
+[editable path="CanvasLayer/HUD"]

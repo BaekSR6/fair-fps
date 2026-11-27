@@ -299,6 +299,32 @@ public class FairPlay {
             }
         }
     }
+
+    private static int determineWinner(
+        int p1Diamond, int p1Silver,
+        int p2Diamond, int p2Silver) {
+
+        // 1순위: 다이아 개수 비교
+        if (p1Diamond > p2Diamond) {
+            return 1;
+        }
+
+        if (p1Diamond < p2Diamond) {
+            return 2;
+        }
+
+        // 2순위: 은화 개수 비교
+        if (p1Silver > p2Silver) {
+            return 1;
+        }
+
+        if (p1Silver < p2Silver) {
+            return 2;
+        }
+
+        // 무승부
+        return 0;
+    }
     static void loadSpawnConfig() throws IOException {
         String content = Files.readString(
             Path.of("spawn_points.json"),
@@ -434,9 +460,7 @@ public class FairPlay {
             if (remainingSeconds <= 0) {
                 matchRunning = false;
 
-                broadcast(MAPPER.createObjectNode()
-                    .put("type", "match_end")
-                    .toString(), 0);
+                sendMatchResult();
 
                 System.out.println("경기 종료!");
             }
@@ -744,6 +768,52 @@ public class FairPlay {
             if (client.id != exceptId) {
                 client.send(message);
             }
+        }
+    }
+
+    private static void sendMatchResult() {
+        synchronized (coinLock) {
+            matchRunning = false;
+
+            // 플레이어별 재화 가져오기
+            int[] p1 = playerCurrencies.getOrDefault(1, new int[]{0, 0});
+            int[] p2 = playerCurrencies.getOrDefault(2, new int[]{0, 0});
+
+            int p1Silver = p1[0];
+            int p1Diamond = p1[1];
+
+            int p2Silver = p2[0];
+            int p2Diamond = p2[1];
+
+            // 승패 판정
+            int winner = determineWinner(
+                p1Diamond, p1Silver,
+                p2Diamond, p2Silver
+            );
+
+            // 경기 결과 메시지 생성
+            Map<String, Object> message = new HashMap<>();
+
+            message.put("type", "match_end");
+            message.put("winner", winner);
+
+            message.put("p1_diamond", p1Diamond);
+            message.put("p1_silver", p1Silver);
+
+            message.put("p2_diamond", p2Diamond);
+            message.put("p2_silver", p2Silver);
+
+            broadcastJson(message);
+
+            System.out.println("========== MATCH END ==========");
+            System.out.println("Player1 Diamond: " + p1Diamond
+                + " Silver: " + p1Silver);
+            System.out.println("Player2 Diamond: " + p2Diamond
+                + " Silver: " + p2Silver);
+
+            System.out.println(
+                winner == 0 ? "DRAW!" : "Player" + winner + " WINS!"
+            );
         }
     }
 
